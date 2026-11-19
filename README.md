@@ -1,4 +1,4 @@
-# TP – Consultation des tickets 
+# TP – Gestion des tickets 
 Ce projet consiste à développer une application web en Vue 3 permettant de consulter et de filtrer des tickets de support technique récupérés depuis une API REST simulée via JSON Server.
 
 ## Technologies utilisées
@@ -13,6 +13,7 @@ Ce projet consiste à développer une application web en Vue 3 permettant de con
 ## Installation
 - npm install
 - npm install axios
+- npm install vue-router
 
 ## Lancement
 - API : npx json-server db.json --port 3000
@@ -25,19 +26,20 @@ Ce projet consiste à développer une application web en Vue 3 permettant de con
 - Compteur de tickets visibles + message si liste vide
 
 ## Réponses aux questions 
-- **API REST vs db.json :** db.json est seulement un fichier de données. Une API REST est une interface HTTP (URL + méthodes GET/POST/PUT/PATCH/DELETE) qui permet d'accéder aux données. JSON Server crée l'API à partir du fichier.
+**Différence entre POST, PUT et PATCH ?**
+POST crée une nouvelle ressource (`POST /tickets`). PUT remplace entièrement une ressource existante (`PUT /tickets/3`, tous les champs sont envoyés). PATCH modifie seulement certains champs (`PATCH /tickets/3` avec `{ "statut": "En cours" }`).
 
-- **Pourquoi onMounted() :** pour déclencher l'appel API (via Axios) automatiquement dès que le composant est initialisé et affiché dans le DOM.
+**Pourquoi une confirmation avant DELETE ?**
+La suppression est définitive et ne peut pas être annulée. La confirmation évite de supprimer un ticket par erreur.
 
-- **Rôle d'Axios :** client HTTP qui simplifie les requêtes vers l'API (base URL, JSON automatique, gestion des erreurs).
+**Quel est le rôle de Vue Router ?**
+Il gère la navigation dans l'application sans recharger la page : il associe chaque URL à un composant (`/tickets`, `/tickets/nouveau`, `/tickets/:id`) et permet de récupérer l'identifiant dans l'URL.
 
-- **ref() vs computed() :** ref() stocker une donnée que l'on peut modifier directement (comme le texte de recherche), computed() pour des données calculées qui se rafraîchissent toute seule quand l'état change.
-
-## Difficultés rencontrées
-- Erreur EADDRINUSE (port 3000 déjà utilisé) : JSON Server tournait déjà dans un autre terminal.
+**Comment éviter les doublons lors de l'enregistrement ?**
+Une variable `isSaving` désactive le bouton pendant la requête et bloque tout nouvel envoi tant que l'enregistrement n'est pas terminé. Elle est remise à `false` dans un bloc `finally`.
 
 ## Captures d'écran
-![Les captures d'écran de le TP sont disponibles dans le dossier captures]
+Les captures d'écran de le TP sont disponibles dans le dossier captures
 
 ## Auteur 
 Salem Nour Elhouda - L2DSI1 / G2 
